@@ -10,63 +10,16 @@ import java.util.Date;
  * @author Pablo
  *
  */
-public class Credito implements Tarjeta {
+public class Credito extends Tarjeta {
 
-	private Cuenta mCuentaAsociada;
-	private Date mFechaDeCaducidad;
-	private String mNumero;
-	private String mTitular;
 	private double mCredito;
 	private ArrayList<Movimiento> mMovimientos;
-	
-	public Credito(Cuenta mCuentaAsociada, Date mFechaDeCaducidad,String mNumero,
-			String mTitular, double mCredito, ArrayList<Movimiento> mMovimientos) {
-		this.mCuentaAsociada = mCuentaAsociada;
-		this.mFechaDeCaducidad = mFechaDeCaducidad;
-		this.mNumero = this.mCuentaAsociada.getmNumero();
-		this.mTitular = this.mCuentaAsociada.getmTitular();
-		this.mCredito = mCredito;
-		this.mMovimientos = mMovimientos;
-	}
 
-	public Cuenta getmCuentaAsociada() {
-		return mCuentaAsociada;
-	}
 
-	public void setmCuentaAsociada(Cuenta mCuentaAsociada) {
-		this.mCuentaAsociada = mCuentaAsociada;
-	}
-
-	public Date getmFechaDeCaducidad() {
-		return mFechaDeCaducidad;
-	}
-
-	public void setmFechaDeCaducidad(Date mFechaDeCaducidad) {
-		this.mFechaDeCaducidad = mFechaDeCaducidad;
-	}
-
-	public String getmNumero() {
-		return mNumero;
-	}
-
-	public void setmNumero(String mNumero) {
-		this.mNumero = mNumero;
-	}
-
-	public String getmTitular() {
-		return mTitular;
-	}
-
-	public void setmTitular(String mTitular) {
-		this.mTitular = mTitular;
-	}
-
-	public double getmCredito() {
-		return mCredito;
-	}
-
-	public void setmCredito(double mCredito) {
-		this.mCredito = mCredito;
+	public Credito(Date mFechaDeCaducidad,
+			String mNumero, String mTitular) {
+		super(mFechaDeCaducidad, mNumero, mTitular);
+		this.mMovimientos = new ArrayList<Movimiento>();
 	}
 
 	public ArrayList<Movimiento> getmMovimientos() {
@@ -81,16 +34,46 @@ public class Credito implements Tarjeta {
 		return this.mCuentaAsociada.getSaldo();
 	}
 	
-	public void ingresar(double x) {
-		this.mCuentaAsociada.ingresar(x);
+	public void ingresar(double x) throws Exception{
+		
+		if (x <= 0) {
+			throw new Exception("No se pueden ingresar cantidades negativas");
+		}
+		Movimiento mov = new Movimiento();
+		mov.setFecha(new Date());
+		mov.setmConcepto("Ingreso Credito");
+		mov.setmImporte(x);
+		this.mMovimientos.add(mov);
+		
+		this.mCredito += x;
 	}
 	
-	public void pagoEnEstablecimiento(String caca, double x) {
-		this.mCuentaAsociada.retirar(caca, x);
+	public void pagoEnEstablecimiento(String caca, double x) throws Exception {
+		
+		if (x <= 0) {
+			throw new Exception("No se pueden retirar cantidades negativas");
+		}
+		Movimiento mov = new Movimiento();
+		mov.setFecha(new Date());
+		mov.setmConcepto(caca);
+		mov.setmImporte(-x);
+		mMovimientos.add(mov);
+		
+		this.mCredito -= x;
 	}
 	
-	public void retirar(double x){
-		this.mCuentaAsociada.retirar(x);
+	public void retirar(double x) throws Exception {
+		
+		if (x <= 0) {
+			throw new Exception("No se pueden retirar cantidades negativas");
+		}
+		Movimiento mov = new Movimiento();
+		mov.setFecha(new Date());
+		mov.setmConcepto("Retirar credito");
+		mov.setmImporte(-x);
+		mMovimientos.add(mov);
+		
+		this.mCredito -= x;
 	}
 	
 	public void setCuenta(Cuenta c) {
@@ -103,6 +86,30 @@ public class Credito implements Tarjeta {
 	
 	public void liquidar(int mes, int anno) {
 		// Buscar movimientos de mes&anno
+		double amount = 0;
+		Date fecha = new Date();
+		
+		//TODO: Completar la caca de la fecha
+		
+		for (Movimiento mov: mMovimientos) {
+			if (mov.getFecha().before(fecha) && mov.getFecha().after(fecha)) {
+				amount += mov.getmImporte();
+			}
+			// Test sin fecha
+			amount += mov.getmImporte();
+		}
+		
+		try {
+			if (amount > 0) {
+				this.mCuentaAsociada.ingresar("Liquidacion Tarjeta de Credito", amount);
+			} else if (amount < 0) {
+				this.mCuentaAsociada.retirar("Liquidacion Tarjeta de Credito", Math.abs(amount));
+			} else {
+				// Si es 0 no hace nada
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 }
