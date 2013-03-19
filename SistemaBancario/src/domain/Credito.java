@@ -4,6 +4,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -87,9 +88,15 @@ public class Credito extends Tarjeta {
 	public void liquidar(int mes, int anno) {
 		// Buscar movimientos de mes&anno
 		double amount = 0;
-		Date fecha = new Date();
-		
-		//TODO: Completar la caca de la fecha
+		/*
+		 * Date es una clase que se mantiene por retrocompatibilidad. 
+		 * Realmente se deber’a usar Calendar, pero la especificaci—n pone Date. 
+		 * En la actualidad para obtener un Date, hay que hacer un Calendar.
+		 */
+		Calendar cal = Calendar.getInstance();
+		cal.set(anno, mes, 1);
+		Date fecha = cal.getTime();
+
 		
 		for (Movimiento mov: mMovimientos) {
 			if (mov.getFecha().before(fecha) && mov.getFecha().after(fecha)) {
