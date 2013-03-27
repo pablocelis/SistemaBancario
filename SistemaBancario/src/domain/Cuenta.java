@@ -51,7 +51,7 @@ public class Cuenta {
 	public void ingresar(double x) throws Exception {
 		
 		if (x <= 0) {
-			throw new Exception("No se pueden ingresar cantidades negativas");
+			throw new Exception("No se pueden ingresar cantidades nulas o negativas.");
 		}		
 		Movimiento mov = new Movimiento();
 		mov.setFecha(new Date());
