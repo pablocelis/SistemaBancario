@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.After;
@@ -20,10 +21,12 @@ public class CreditoTester {
 	static Cuenta cuenta;
 	static Credito credito;
 
-	@SuppressWarnings("deprecation")
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		credito = new Credito(new Date(10, 12, 2015), "5565.3321.3456.1123",
+		Calendar cal = Calendar.getInstance();
+		cal.set(2015, 12, 10);
+		Date fecha = cal.getTime();
+		credito = new Credito(fecha, "5565.3321.3456.1123",
 				"Se–or X");
 	}
 
@@ -42,13 +45,15 @@ public class CreditoTester {
 	@Test
 	public void setCuenta() {
 		try {
-			cuenta = new Cuenta("0001.0002.43.1234567890", "Caja B");
+			cuenta = new Cuenta("0001.0002.42.1234567890", "Caja B");
 			credito.setCuenta(cuenta);
 		} catch (Exception e) {
 			fail("No se ha asociado la cuenta");
 		}
 	}
 
+
+	
 	@Test
 	public void ingresar100() {
 		try {
@@ -60,15 +65,16 @@ public class CreditoTester {
 		assertTrue(credito.getSaldo() == 0.0);
 	}
 
+	
 	@Test
 	public void retirar100() {
 		try {
 			credito.retirar(100);
 			assertTrue(credito.getCreditoDisponible() == 0.0);
+			assertTrue(credito.getSaldo() == 0.0);
 		} catch (Exception e) {
 			fail("no deberia fallar");
-		}
-		assertTrue(credito.getSaldo() == 0.0);
+		}		
 	}
 
 	@Test
@@ -91,6 +97,7 @@ public class CreditoTester {
 			assertTrue(credito.getCreditoDisponible() == -300.0);
 		}
 	}
+	
 
 	@Test
 	public void ingresarEnCuenta() {
@@ -108,15 +115,82 @@ public class CreditoTester {
 	@Test
 	public void liquidar() {
 		try {
-			credito.liquidar(2, 2013);
+			credito.liquidar(4, 2013);
 			assertTrue(credito.getSaldo() == 900.0);
-			assertTrue(credito.getCreditoDisponible() == -300.0);
-			
-			
+			assertTrue(credito.getCreditoDisponible() == -300.0);			
 		} catch (Exception e) {
-			fail("No deberia fallar");
+			fail("No deberia fallar"+e);
 		}
-
+	}
+	
+	@Test
+	public void ingresar1000() {
+		try {
+			credito.ingresar(1000);
+			assertTrue(credito.getCreditoDisponible() == 700.0);
+		} catch (Exception e) {
+			fail("no deberia fallar");
+		}
+		assertTrue(credito.getSaldo() == 900.0);
+	}
+	
+	@Test
+	public void liquidarSaldoPos() {
+		try {
+			credito.liquidar(4, 2013);
+			assertTrue(credito.getSaldo() == 1600.0);
+			assertTrue(credito.getCreditoDisponible() == 700.0);			
+		} catch (Exception e) {
+			fail("No deberia fallar"+e);
+		}
+	}
+	
+	@Test
+	public void liquidarFuturo() {
+		try {
+			credito.liquidar(4, 2014);
+		
+		} catch (Exception e) {
+			assertTrue(credito.getSaldo() == 900.0);
+			assertTrue(credito.getCreditoDisponible() == -300.0);	
+			assertNotNull(e);
+		}
+	}
+	
+	@Test
+	public void liquidarAnterior() {
+		try {
+			credito.liquidar(1, 2013);
+		
+		} catch (Exception e) {
+			assertTrue(credito.getSaldo() == 900.0);
+			assertTrue(credito.getCreditoDisponible() == -300.0);	
+			assertNotNull(e);
+		}
+	}
+	
+	@Test
+	public void liquidarMesError() {
+		try {
+			credito.liquidar(14, 2011);
+		
+		} catch (Exception e) {
+			assertTrue(credito.getSaldo() == 900.0);
+			assertTrue(credito.getCreditoDisponible() == -300.0);	
+			assertNotNull(e);
+		}
+	}
+	
+	@Test
+	public void liquidarAnnoError() {
+		try {
+			credito.liquidar(4, 11);
+		
+		} catch (Exception e) {
+			assertTrue(credito.getSaldo() == 900.0);
+			assertTrue(credito.getCreditoDisponible() == -300.0);	
+			assertNotNull(e);
+		}
 	}
 
 	/*
