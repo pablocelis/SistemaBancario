@@ -63,6 +63,26 @@ public class CuentaTester {
 		}
 		assertTrue(cuenta.getSaldo() == 2000.0);
 	}
+	
+	@Test
+	public void retirarDemasiado() {
+		try {
+			cuenta.retirar(2600);
+		} catch (Exception e) {
+			assertTrue(cuenta.getSaldo() == 2000.0);
+			assertNotNull(e);
+		}	
+	}
+	
+	@Test
+	public void retirarConceptoDemasiado() {
+		try {
+			cuenta.retirar("Te dejo en numeros rojos",2600);
+		} catch (Exception e) {
+			assertTrue(cuenta.getSaldo() == 2000.0);
+			assertNotNull(e);
+		}	
+	}
 
 	@Test
 	public void retirarConcepto() {

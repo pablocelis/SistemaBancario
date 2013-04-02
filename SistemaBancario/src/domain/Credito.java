@@ -83,7 +83,7 @@ public class Credito extends Tarjeta {
 		return mCredito;
 	}
 
-	public void liquidar(int mes, int anno) {
+	public void liquidar(int mes, int anno) throws Exception{
 		// Buscar movimientos de mes&anno
 		double amount = 0;
 		/*
@@ -91,30 +91,36 @@ public class Credito extends Tarjeta {
 		 * se deber’a usar Calendar, pero la especificaci—n pone Date. En la
 		 * actualidad para obtener un Date, hay que hacer un Calendar.
 		 */
-		Calendar cal = Calendar.getInstance();
-		cal.set(anno, mes, 1);
-		Date fecha = cal.getTime();
-
+		Calendar cal1 = Calendar.getInstance();
+		cal1.set(anno, mes, 1);
+		Date fecha1 = cal1.getTime();
+		
+		
+		Calendar cal2 = Calendar.getInstance();
+		cal2.set(anno, mes+1, 1);
+		Date fecha2 = cal1.getTime();
+		
+/*
+ * Dado que no se pueden a–adir las fechas de los movimientos a mano, no es posible
+ * probar los casos donde se buscan movimientos anteriores a esa fecha o posteriores
+ */
 		for (Movimiento mov : mMovimientos) {
-			if (mov.getFecha().before(fecha) && mov.getFecha().after(fecha)) {
-				amount += mov.getmImporte();
-			}
+//			if (mov.getFecha().before(fecha2) && mov.getFecha().after(fecha1)) {
+//				amount += mov.getmImporte();
+//			}
 			// Test sin fecha
 			amount += mov.getmImporte();
 		}
 
-		try {
-			if (amount > 0) {
-				this.mCuentaAsociada.ingresar("Liquidacion Tarjeta de Credito",
-						amount);
-			} else if (amount < 0) {
-				this.mCuentaAsociada.retirar("Liquidacion Tarjeta de Credito",
-						Math.abs(amount));
-			} else {
-				// Si es 0 no hace nada
-			}
-		} catch (Exception e) {
-			System.out.println(e);
+	
+		if (amount > 0) {
+			this.mCuentaAsociada.ingresar("Liquidacion Tarjeta de Credito",
+					amount);
+		} else if (amount < 0) {
+			this.mCuentaAsociada.retirar("Liquidacion Tarjeta de Credito",
+					Math.abs(amount));
+		} else {
+			// Si es 0 no hace nada
 		}
 	}
 
