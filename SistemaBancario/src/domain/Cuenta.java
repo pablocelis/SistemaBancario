@@ -76,6 +76,9 @@ public class Cuenta {
 		
 		if (x <= 0) {
 			throw new Exception("No se pueden retirar cantidades negativas");
+		}	
+		if (x > getSaldo()) {
+			throw new Exception("No hay suficiente saldo");
 		}
 		Movimiento mov = new Movimiento();
 		mov.setFecha(new Date());
@@ -88,6 +91,9 @@ public class Cuenta {
 		
 		if (x <= 0) {
 			throw new Exception("No se pueden retirar cantidades negativas");
+		}
+		if (x > getSaldo()) {
+			throw new Exception("No hay suficiente saldo");
 		}
 		Movimiento mov = new Movimiento();
 		mov.setFecha(new Date());
