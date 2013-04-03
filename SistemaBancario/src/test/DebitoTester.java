@@ -136,8 +136,7 @@ public class DebitoTester {
 
 	@Test
 	public void testGetmNumero() {
-		String s = debito.getmNumero();
-		assertTrue(s.length() == 23);
+		assertNotNull(debito.getmNumero());
 	}
 
 	@Test
@@ -179,6 +178,6 @@ public class DebitoTester {
 		cal.set(2015, 12, 10);
 		Date fecha = cal.getTime();
 		debito.setmFechaDeCaducidad(fecha);
-		assertSame(fecha, debito.getmNumero());
+		assertSame(fecha, debito.getmFechaDeCaducidad());
 	}
 }
