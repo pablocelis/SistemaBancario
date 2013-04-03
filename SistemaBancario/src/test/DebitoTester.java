@@ -17,25 +17,40 @@ import domain.Debito;
 public class DebitoTester {
 	
 	static Debito debito;
+	static Cuenta cuenta;
+	static String nombre = "Se–or X";
+	static String numero = "5565.3321.3456.1123";
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		cal.set(2015, 12, 10);
 		Date fecha = cal.getTime();
-		debito = new Debito(fecha, "5565.3321.3456.1123", "Se–or X");
+		debito = new Debito(fecha, numero, nombre);	
+		cuenta = new Cuenta(numero, nombre);
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		
 	}
 
 	@Before
 	public void setUp() throws Exception {
+		setCuenta();
 	}
 
 	@After
 	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void setCuenta() {
+		try {			
+			debito.setCuenta(cuenta);
+		} catch (Exception e) {
+			fail("No se ha asociado la cuenta");
+		}
 	}
 
 	
@@ -50,7 +65,7 @@ public class DebitoTester {
 			fail("no deberia fallar"+e);
 		}
 	}
-	
+
 	@Test
 	public void ingresarNeg() {
 		try {
@@ -59,6 +74,7 @@ public class DebitoTester {
 		catch (Exception e)
 		{
 			assertTrue(debito.getSaldo()==100.0);
+			assertNotNull(e);
 		}
 	}
 	

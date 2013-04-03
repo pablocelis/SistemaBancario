@@ -20,14 +20,17 @@ public class CreditoTester {
 
 	static Cuenta cuenta;
 	static Credito credito;
+	static String nombre = "Se–or X";
+	static String numero = "5565.3321.3456.1123";
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		cal.set(2015, 12, 10);
 		Date fecha = cal.getTime();
-		credito = new Credito(fecha, "5565.3321.3456.1123",
-				"Se–or X");
+		credito = new Credito(fecha, numero,
+				nombre);
+		cuenta = new Cuenta(numero, nombre);
 	}
 
 	@AfterClass
@@ -36,6 +39,7 @@ public class CreditoTester {
 
 	@Before
 	public void setUp() throws Exception {
+		setCuenta();
 	}
 
 	@After
@@ -45,7 +49,6 @@ public class CreditoTester {
 	@Test
 	public void setCuenta() {
 		try {
-			cuenta = new Cuenta("0001.0002.42.1234567890", "Caja B");
 			credito.setCuenta(cuenta);
 		} catch (Exception e) {
 			fail("No se ha asociado la cuenta");

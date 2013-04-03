@@ -29,10 +29,12 @@ public class Credito extends Tarjeta {
 		this.mMovimientos = mMovimientos;
 	}
 
+	@Override
 	public double getSaldo() {
 		return this.mCuentaAsociada.getSaldo();
 	}
 
+	@Override
 	public void ingresar(double x) throws Exception {
 
 		if (x <= 0) {
@@ -47,6 +49,7 @@ public class Credito extends Tarjeta {
 		this.mCredito += x;
 	}
 
+	@Override
 	public void pagoEnEstablecimiento(String caca, double x) throws Exception {
 
 		if (x <= 0) {
@@ -61,6 +64,7 @@ public class Credito extends Tarjeta {
 		this.mCredito -= x;
 	}
 
+	@Override
 	public void retirar(double x) throws Exception {
 
 		if (x <= 0) {
@@ -75,6 +79,7 @@ public class Credito extends Tarjeta {
 		this.mCredito -= x;
 	}
 
+	@Override
 	public void setCuenta(Cuenta c) {
 		this.mCuentaAsociada = c;
 	}
