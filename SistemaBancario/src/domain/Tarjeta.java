@@ -14,7 +14,8 @@ public abstract class Tarjeta {
 		this.mFechaDeCaducidad = mFechaDeCaducidad;
 		this.mNumero = mNumero;
 		this.mTitular = mTitular;
-		this.mCuentaAsociada = new Cuenta(mNumero, mTitular);
+		Cuenta c  = new Cuenta(mNumero, mTitular);
+		setCuenta(c);
 	}
 
 	abstract double getSaldo();

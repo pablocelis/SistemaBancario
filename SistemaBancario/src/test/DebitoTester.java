@@ -47,7 +47,7 @@ public class DebitoTester {
 		} 
 		catch (Exception e)
 		{
-			fail("no deberia fallar");
+			fail("no deberia fallar"+e);
 		}
 	}
 	
@@ -62,28 +62,17 @@ public class DebitoTester {
 		}
 	}
 	
-	@Test
-	public void retirar101() {
-		try {
-			debito.retirar(101);
-		} 
-		catch (Exception e)
-		{
-			assertTrue(debito.getSaldo() == 100.0);
-			assertNotNull(e);
-		}
-	}
 	
 	@Test
 	public void ingresar2500() {
 		try {
 			debito.ingresar(2500);
-			assertTrue(debito.getSaldo()==2600.0);
 		}
 		catch (Exception e)
 		{
 			fail("no deberia fallar");
 		}
+		assertTrue(debito.getSaldo()==2600.0);
 	}
 	
 	@Test
@@ -122,7 +111,19 @@ public class DebitoTester {
 		{
 			fail("No deberia fallar al retirar");
 		}
-		assertTrue(debito.getSaldo()==0.0);
+		assertTrue(debito.getSaldo()==1000.0);
+	}
+		
+	@Test
+	public void retirar1001() {
+		try {
+			debito.retirar(1001);
+		} 
+		catch (Exception e)
+		{
+			assertTrue(debito.getSaldo() == 1000.0);
+			assertNotNull(e);
+		}
 	}
 	
 	/*
