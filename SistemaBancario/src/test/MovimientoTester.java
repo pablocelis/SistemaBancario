@@ -69,14 +69,14 @@ public class MovimientoTester {
 
 	@Test
 	public void testGetmImporte() {
-		assertSame(importe, movimiento.getmImporte());
+		assertTrue(importe == movimiento.getmImporte());
 	}
 
 	@Test
 	public void testSetmImporte() {
 		double test = 200;
 		movimiento.setmImporte(test);
-		assertSame(test, movimiento.getmImporte());
+		assertTrue(test == movimiento.getmImporte());
 	}
 
 }

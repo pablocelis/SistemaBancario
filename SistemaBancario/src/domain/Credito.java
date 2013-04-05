@@ -88,6 +88,7 @@ public class Credito extends Tarjeta {
 		return mCredito;
 	}
 
+	@SuppressWarnings("unused")
 	public void liquidar(int mes, int anno) throws Exception{
 		// Buscar movimientos de mes&anno
 		double amount = 0;

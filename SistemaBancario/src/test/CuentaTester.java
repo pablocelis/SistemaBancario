@@ -65,6 +65,28 @@ public class CuentaTester {
 	}
 	
 	@Test
+	public void retirarConcepto() {
+		try {
+			cuenta.retirar("Papa dame pelas", 1000);
+		} catch (Exception e) {
+			fail("No deberia fallar al retirar");
+		} 
+		assertTrue(cuenta.getSaldo() == 1000.0);
+
+	}
+
+	@Test
+	public void ingresarYRetirar() {
+		try {
+			cuenta.ingresar(500);
+			cuenta.retirar(500);
+		} catch (Exception e) {
+			fail("No deberia fallar al retirar");
+		}
+		assertTrue(cuenta.getSaldo() == 1000.0);
+	}
+	
+	@Test
 	public void retirarDemasiado() {
 		try {
 			cuenta.retirar(2600);
@@ -84,36 +106,14 @@ public class CuentaTester {
 		}	
 	}
 
-	@Test
-	public void retirarConcepto() {
-		try {
-			cuenta.retirar("Papa dame pelas", 2000);
-		} catch (Exception e) {
-			fail("No deberia fallar al retirar");
-		} finally {
-
-		}
-		assertTrue(cuenta.getSaldo() == 0);
-
-	}
-
-	@Test
-	public void ingresarYRetirar() {
-		try {
-			cuenta.ingresar(500);
-			cuenta.retirar(500);
-		} catch (Exception e) {
-			fail("No deberia fallar al retirar");
-		}
-		assertTrue(cuenta.getSaldo() == 0.0);
-	}
 	
 	
 	/*
 	 * Test de Exceptions
 	 */
 	
-	@Test public void ingresar(){
+	@Test 
+	public void ingresar(){
 		try {
 			cuenta.ingresar(0);
 		} catch (Exception e) {
@@ -127,7 +127,8 @@ public class CuentaTester {
 		}
 	}
 	
-	@Test public void retirar(){
+	@Test 
+	public void retirar(){
 		try {
 			cuenta.retirar(0);
 		} catch (Exception e) {
@@ -165,18 +166,21 @@ public class CuentaTester {
 	 * Test de setters
 	 */
 
-	@Test public void testSetmMovimientos(){
+	@Test 
+	public void testSetmMovimientos(){
 		ArrayList<Movimiento> movs = new ArrayList<Movimiento>();
 		cuenta.setmMovimientos(movs);
 		assertSame(movs, cuenta.getmMovimientos());
 	}
 	
-	@Test public void testSetmTitular(){
+	@Test 
+	public void testSetmTitular(){
 		String nombre = "Jane Doe";
 		cuenta.setmTitular(nombre);
 		assertSame(nombre, cuenta.getmTitular());
 	}
-	@Test public void testSetmNumero(){
+	@Test 
+	public void testSetmNumero(){
 		String num = "12345678901234567890123";
 		cuenta.setmNumero(num);
 		assertSame(num, cuenta.getmNumero());
