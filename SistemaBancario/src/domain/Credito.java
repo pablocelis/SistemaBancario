@@ -79,10 +79,6 @@ public class Credito extends Tarjeta {
 		this.mCredito -= x;
 	}
 
-	@Override
-	public void setCuenta(Cuenta c) {
-		this.mCuentaAsociada = c;
-	}
 
 	public double getCreditoDisponible() {
 		return mCredito;

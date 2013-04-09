@@ -236,4 +236,60 @@ public class CreditoTester {
 			assertNotNull(e);
 		}
 	}
+	
+	/*
+	 * Tests de getters
+	 */
+
+	@Test
+	public void testGetmCuentaAsociada() {
+		assertNotNull(credito.getmCuentaAsociada());
+	}
+
+	@Test
+	public void testGetmNumero() {
+		assertNotNull(credito.getmNumero());
+	}
+
+	@Test
+	public void testGetmTitular() {
+		assertNotNull(credito.getmTitular());
+	}
+	
+	@Test
+	public void testGetmFechaCaducidad() {
+		assertNotNull(credito.getmFechaDeCaducidad());
+	}
+
+	/*
+	 * Test de setters
+	 */
+
+	@Test 
+	public void testSetmCuentaAsociada(){
+		Cuenta c = new Cuenta("5565.3321.3456.1123", "Se–or X");
+		credito.setCuenta(c);
+		assertSame(c, credito.getmCuentaAsociada());
+	}
+	
+	@Test 
+	public void testSetmTitular(){
+		String nombre = "Jane Doe";
+		credito.setmTitular(nombre);
+		assertSame(nombre, credito.getmTitular());
+	}
+	@Test public void testSetmNumero(){
+		String num = "12345678901234567890123";
+		credito.setmNumero(num);
+		assertSame(num, credito.getmNumero());
+	}
+
+	@Test
+	public void testSetmFechaCaducidad() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(2015, 12, 10);
+		Date fecha = cal.getTime();
+		credito.setmFechaDeCaducidad(fecha);
+		assertSame(fecha, credito.getmFechaDeCaducidad());
+	}
 }
